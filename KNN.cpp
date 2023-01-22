@@ -46,7 +46,7 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
     }
 
     int imax = 0; int max = 0;
-    for (int i = 0; i < labels_number; i++) {
+    for (int i = 0; i < labels_number; i++) { 
         if (monim[i] > max) { max = monim[i]; imax = i; }
     }
       

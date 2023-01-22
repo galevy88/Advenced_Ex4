@@ -32,7 +32,7 @@ vector<double> parser(string string_Vector) {
     vector<double> Vector;
     string current;
 
-    for(int i = 0; i <= string_Vector.length(); i++)
+    for(int i = 0; i <= string_Vector.length(); i++) 
     {
         if(string_Vector[i] == ' ' || string_Vector[i] == '\0') 
         {

@@ -2,7 +2,7 @@
 using namespace std;
 
 
-//A function that calculate the distance between two vectors by using the euclidean distance algorithm:
+//A function that calculate the distance between two vectors by using the euclidean distance algorithm :
 double euclidian_distance_function(vector<double> vec1, vector<double> vec2) {
     double sum = 0.0;
     for(int i = 0; i < vec1.size(); i++) {

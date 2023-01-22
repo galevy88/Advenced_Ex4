@@ -81,7 +81,7 @@ vector<int> Data::get_y_train() { return this->y_train; }
 //     while(getline(inputFile, line)) {
 //         create_split(line , current_vec, label);
 //         line = ""; 
-//         this->x_train.push_back(current_vec);
+//         this->x_train.push_back(current_vec) ;
 //         this->y_train.push_back(label);
 //     } 
 // }

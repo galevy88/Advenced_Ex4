@@ -87,7 +87,7 @@ class Command {
   ClientInfo& client_info_;
 };
 
-class UploadFileCommand : public Command {
+class UploadFileCommand : public Command { 
  public:
   UploadFileCommand(ClientInfo& client_info);
   void execute(SocketIO& socketIO);

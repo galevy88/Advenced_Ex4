@@ -4,7 +4,7 @@ This repo used for Advenced computing exercise 3
 In this exercise we had to make KNN algorithm using cpp. KNN in a primitive ML algorithm that get as an input Data that seperate into 2 main parts: features and labels. Based on the features we want to make a prediction for a label for a new sample of data. The way KNN works is by calculating a distance function between the new sample to all the data in the training set. the label of the most fluent sampels with the smallest distance will be the prediction label of the new sample.
 In this exercise we implemented a server side client side method therefore the user reach the client side and insert an input. This input is convey to the server side there the caclculation has been made and after it the result is transfering to the client side and the client side show this input to the user.
 
-In this Excercise we have to make an implementation for 5 types of distances:
+In this Excercise we have to make an implementation for 5 types of distances: 
 1. Euclidain Distance
 2. Manheten Distance
 3. Chebyshev Distance
