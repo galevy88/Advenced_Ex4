@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <iostream>
+#include <ios>
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -152,7 +154,7 @@ void start();
 };
 
 
-
+std::string get_type_train_test(std::string path);
 
 void parseInput(const std::string &input);
 

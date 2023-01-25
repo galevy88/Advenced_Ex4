@@ -16,21 +16,67 @@ int analysis_message(const std::string& message) {
   return -1;
 }
 
-
-std::string upload_csv_file() {
-    std::string path;
-    std::getline(std::cin, path);
-
-    std::ifstream file(path);
-
-    if(file.good()) {
-    std::cout << "GOOD" << std::endl;
-    std::string line, file_contents;
-    while (std::getline(file, line)) { file_contents += line + '\n'; }
-    file.close(); return file_contents; }
-    else { return "None"; }
-    
+std::string get_type_train_test(std::string path) {
+    if (path.find("iris") != std::string::npos) { return "iris"; }
+    if (path.find("wine") != std::string::npos) { return "wine"; }
+    if (path.find("beans") != std::string::npos) { return "beans"; }
+    return "";
 }
+
+void upload_csv_train_file(SocketIO& socketIO, std::string message, std::string& type_train) {
+    std::string path;
+    std::fstream file;
+    std::string line;
+    
+    while (true) {
+        std::getline(std::cin, path);
+        type_train = get_type_train_test(path);
+        file.open(path, std::ios::in);
+        if (!file.good()) {
+            std::cout << "Please upload your local train CSV file." << std::endl;
+            continue;
+        }
+        break;
+    }
+
+    while(std::getline(file, line)) {
+      socketIO.Write(line);
+    }
+    socketIO.Write("Done.");
+    file.close();
+}
+
+
+void upload_csv_test_file(SocketIO& socketIO, std::string message, std::string& type_train) {
+    std::string path;
+    std::string type_test;
+    std::fstream file;
+    std::string line;
+
+    while (true) {
+        std::getline(std::cin, path);
+        type_test = get_type_train_test(path);
+        if (type_test != type_train) {
+            std::cout << "Please upload your local test CSV file." << std::endl;
+            continue;
+        }
+        file.open(path, std::ios::in);
+        if (!file.good()) {
+            std::cout << "Please upload your local test CSV file." << std::endl;
+            continue;
+        }
+        break;
+    }
+
+    while(std::getline(file, line)) {
+      socketIO.Write(line);
+    }
+    socketIO.Write("Done.");
+    file.close();
+}
+
+
+
 
 bool is_string_numeric(const std::string& str) {
     for (const char& c : str) {
@@ -117,14 +163,15 @@ SocketIO socket(socket_);
 std::string final_results;
 bool has_results = false;
 std::string response;
+std::string type_train;
 while (true) {
     std::string message = socket.Read();
     std::cout << message << std::endl;
     
     int analysis = analysis_message(message);
     if (analysis == 1) { std::getline(std::cin, response); socket.Write(response); }
-    if (analysis == 2) { std::string csv_train = upload_csv_file(); socket.Write(csv_train); }
-    if (analysis == 3) { std::string csv_test = upload_csv_file(); socket.Write(csv_test); }
+    if (analysis == 2) { upload_csv_train_file(socket, message, type_train); }
+    if (analysis == 3) { upload_csv_test_file(socket, message, type_train); }
     if (analysis == 4) { std::string params = get_params_input(); socket.Write(params); }
     if (analysis == 5) { download_results(message); }
     if (analysis == 6) { break; }
