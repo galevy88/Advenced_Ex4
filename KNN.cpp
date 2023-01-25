@@ -33,13 +33,12 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
     }
     
     int size = x_train.size();
-    vector< pair<double, int> > sorted = {};
-    sorted = bubbleSort(distances, size);
+    std::sort(distances.begin(), distances.end());
 
     int monim[labels_number];
     vector<int> neighbors = {};
 
-    for (int i = 0; i < k; i++) { neighbors.push_back(sorted[i].second); }
+    for (int i = 0; i < k; i++) { neighbors.push_back(distances[i].second); }
     for(int i = 0; i < labels_number; i++) { monim[i] = 0; }
     for (int i = 0; i < neighbors.size(); i++) {
         monim[y_train[neighbors[i]]]++; 
