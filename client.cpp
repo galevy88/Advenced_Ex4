@@ -72,6 +72,7 @@ void upload_csv_test_file(SocketIO& socketIO, std::string message, std::string& 
       socketIO.Write(line);
     }
     socketIO.Write("Done.");
+    std::cout << "Upload complete." << std::endl;
     file.close();
 }
 
@@ -101,7 +102,12 @@ int check_if_valid_input(const std::string& input) {
                 } 
                 else { std::cout << "Invalid value for metric" << std::endl; return 0;} } 
                 else { std::cout << "Invalid value for K" << std::endl; return 0;} }
+        else {
+                std::cout << "Invalid value" << std::endl;
+                return 0;
+        }
 }
+
 
 void parseInput(const std::string &input) {
     std::stringstream ss(input);
@@ -137,6 +143,19 @@ void download_results(std::string& final_results) {
   file.close();
 }
 
+
+void handle_response(SocketIO& socketIO) {
+  std::string response;
+  std::getline(std::cin, response);
+
+    while (response != "1" && response != "2" && response != "3" && response != "4" && response != "5" && response != "8") {
+    std::cout << "You have to choose 1 or 2 or 3 or 4 or 5 or 8" << std::endl;
+    std::getline(std::cin, response);
+  }
+
+  socketIO.Write(response);
+}
+
 int main(int argc, char* argv[]) {
   int PORT = atoi(argv[1]);
   // Create a socket
@@ -162,21 +181,19 @@ int main(int argc, char* argv[]) {
 SocketIO socket(socket_);
 std::string final_results;
 bool has_results = false;
-std::string response;
+
 std::string type_train;
 while (true) {
     std::string message = socket.Read();
     std::cout << message << std::endl;
     
     int analysis = analysis_message(message);
-    if (analysis == 1) { std::getline(std::cin, response); socket.Write(response); }
+    if (analysis == 1) { handle_response(socket); }
     if (analysis == 2) { upload_csv_train_file(socket, message, type_train); }
     if (analysis == 3) { upload_csv_test_file(socket, message, type_train); }
     if (analysis == 4) { std::string params = get_params_input(); socket.Write(params); }
     if (analysis == 5) { download_results(message); }
     if (analysis == 6) { break; }
-    
-    if (response == "-1") { break; }
 }
 
 

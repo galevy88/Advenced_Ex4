@@ -153,7 +153,7 @@ void start();
 
 };
 
-
+void handle_response(SocketIO& socketIO);
 std::string get_type_train_test(std::string path);
 
 void parseInput(const std::string &input);
